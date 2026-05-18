@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.black12,
                 blurRadius: 20,
                 offset: const Offset(0, 10),
-              )
+              ),
             ],
           ),
           child: Column(
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const Text(
-                'Sistema de Matrícula',
+                'Sistema de Matricula',
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
               const SizedBox(height: 32),
@@ -94,13 +94,17 @@ class _LoginScreenState extends State<LoginScreen> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: () => auth.login(_emailController.text, _passController.text),
+            onPressed: () =>
+                auth.login(_emailController.text, _passController.text),
             child: const Text('INGRESAR'),
           ),
         ),
         TextButton(
           onPressed: () => auth.setRecoveryStep(1),
-          child: const Text('¿Olvidó su contraseña?', style: TextStyle(fontSize: 12)),
+          child: const Text(
+            '¿Olvidó su contraseña?',
+            style: TextStyle(fontSize: 12),
+          ),
         ),
       ],
     );
@@ -109,10 +113,16 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildEmailStep(AuthProvider auth) {
     return Column(
       children: [
-        const Text('Recuperar Cuenta', style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text(
+          'Recuperar Cuenta',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
-        const Text('Ingrese su correo para enviar el código OTP.',
-          textAlign: TextAlign.center, style: TextStyle(fontSize: 12)),
+        const Text(
+          'Ingrese su correo para enviar el código OTP.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 12),
+        ),
         const SizedBox(height: 16),
         TextField(decoration: const InputDecoration(labelText: 'Correo')),
         const SizedBox(height: 24),
@@ -120,7 +130,10 @@ class _LoginScreenState extends State<LoginScreen> {
           onPressed: () => auth.setRecoveryStep(2),
           child: const Text('CONTINUAR'),
         ),
-        TextButton(onPressed: () => auth.setRecoveryStep(0), child: const Text('Volver')),
+        TextButton(
+          onPressed: () => auth.setRecoveryStep(0),
+          child: const Text('Volver'),
+        ),
       ],
     );
   }
@@ -128,19 +141,25 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildOtpStep(AuthProvider auth) {
     return Column(
       children: [
-        const Text('Verificación OTP', style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text(
+          'Verificación OTP',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(6, (index) => SizedBox(
-            width: 35,
-            child: TextField(
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
-              maxLength: 1,
-              decoration: const InputDecoration(counterText: ''),
+          children: List.generate(
+            6,
+            (index) => SizedBox(
+              width: 35,
+              child: TextField(
+                textAlign: TextAlign.center,
+                keyboardType: TextInputType.number,
+                maxLength: 1,
+                decoration: const InputDecoration(counterText: ''),
+              ),
             ),
-          )),
+          ),
         ),
         const SizedBox(height: 24),
         ElevatedButton(
@@ -154,11 +173,20 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildNewPassStep(AuthProvider auth) {
     return Column(
       children: [
-        const Text('Nueva Contraseña', style: TextStyle(fontWeight: FontWeight.bold)),
+        const Text(
+          'Nueva Contraseña',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 16),
-        TextField(obscureText: true, decoration: const InputDecoration(labelText: 'Nueva Clave')),
+        TextField(
+          obscureText: true,
+          decoration: const InputDecoration(labelText: 'Nueva Clave'),
+        ),
         const SizedBox(height: 16),
-        TextField(obscureText: true, decoration: const InputDecoration(labelText: 'Confirmar Clave')),
+        TextField(
+          obscureText: true,
+          decoration: const InputDecoration(labelText: 'Confirmar Clave'),
+        ),
         const SizedBox(height: 24),
         ElevatedButton(
           onPressed: () => auth.setRecoveryStep(0),

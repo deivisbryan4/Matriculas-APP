@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'app_theme.dart';
 import 'providers.dart';
 import 'screens/login_screen.dart';
-import 'screens/dashboard_screen.dart';
+import 'screens/shell_screen.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => EnrollmentProvider()),
+        ChangeNotifierProvider(create: (_) => SystemProvider()),
       ],
       child: const UnajMatriculaApp(),
     ),
@@ -31,7 +31,7 @@ class UnajMatriculaApp extends StatelessWidget {
           if (auth.currentUser == null) {
             return const LoginScreen();
           }
-          return const DashboardScreen();
+          return const ShellScreen();
         },
       ),
     );

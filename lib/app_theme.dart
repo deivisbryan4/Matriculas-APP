@@ -1,51 +1,81 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Paleta de Colores Institucional UNAJ
-  static const Color navyBlue = Color(0xFF002366);
-  static const Color mustardYellow = Color(0xFFFFDB58);
-  static const Color lightGrey = Color(0xFFF5F5F5);
+  // Paleta Executive Dark UNAJ
+  static const Color background = Color(0xFF121212);
+  static const Color surface = Color(0xFF1E1E1E);
+  static const Color navyBlue = Color(0xFF1B2B6B);
+  static const Color mustardYellow = Color(0xFFF5A623);
+  static const Color plomoBorde = Color(0xFF2D2D2D);
+  static const Color whiteText = Color(0xFFF1F5F9);
+  static const Color greyText = Color(0xFF94A3B8);
+
+  // Alias para retrocompatibilidad
+  static const Color lightGrey = Color(0xFFF1F5F9);
   static const Color whitePuro = Color(0xFFFFFFFF);
 
-  // Semántica (Semáforo)
-  static const Color emeraldGreen = Color(0xFF50C878);
-  static const Color roseRed = Color(0xFFE32636);
-  static const Color amberOrange = Color(0xFFFFBF00);
+  // Semántica
+  static const Color emeraldGreen = Color(0xFF10B981);
+  static const Color roseRed = Color(0xFFEF4444);
+  static const Color amberOrange = Color(0xFFF59E0B);
 
   static ThemeData get theme {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: navyBlue,
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: background,
+      colorScheme: const ColorScheme.dark(
         primary: navyBlue,
         secondary: mustardYellow,
-        surface: whitePuro,
+        surface: surface,
+        onSurface: whiteText,
         error: roseRed,
       ),
-      scaffoldBackgroundColor: lightGrey,
       appBarTheme: const AppBarTheme(
-        backgroundColor: navyBlue,
-        foregroundColor: whitePuro,
+        backgroundColor: Color(0xFF0F172A),
+        foregroundColor: whiteText,
         elevation: 0,
-        centerTitle: true,
+        centerTitle: false,
+      ),
+      cardTheme: CardThemeData(
+        color: surface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: plomoBorde),
+        ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: navyBlue,
-          foregroundColor: whitePuro,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          padding: const EdgeInsets.symmetric(vertical: 16),
         ),
       ),
-      cardTheme: CardThemeData(
-        color: whitePuro,
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: surface,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: plomoBorde),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: plomoBorde),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: navyBlue, width: 2),
+        ),
       ),
-      textTheme: const TextTheme(
-        displaySmall: TextStyle(color: navyBlue, fontWeight: FontWeight.bold),
-        titleLarge: TextStyle(color: navyBlue, fontWeight: FontWeight.w600),
-        bodyMedium: TextStyle(color: Colors.black87),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Color(0xFF1E1E1E),
+        selectedItemColor: mustardYellow,
+        unselectedItemColor: greyText,
+        selectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+        unselectedLabelStyle: TextStyle(fontSize: 10),
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }

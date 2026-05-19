@@ -1,88 +1,123 @@
 enum UserRole { adminMaster, adminSecondary, student }
 
-enum EnrollmentStatus { pendingPayment, selectingCourses, enrolled }
+enum StudentStatus { regular, observado, inhabilitado }
+
+enum PaymentStatus { pendiente, validado, rechazado }
+
+enum CourseType { obligatorio, electivo }
 
 class User {
   final String id;
   final String name;
   final String email;
   final String code;
+  final String dni;
   final String career;
+  final String faculty;
   final UserRole role;
-  String phone;
-  String altEmail;
-  EnrollmentStatus enrollmentStatus;
-  String paymentOperation;
-  String paymentFileName;
-  String enrollmentCode;
+  final StudentStatus status;
+  final int approvedCredits;
+  final int totalCredits;
+  final int approvedCourses;
+  final int totalCourses;
+  final double gpa;
+  final int entryYear;
+  final String sede;
+  final String? phone;
+  final String? altEmail;
 
   User({
     required this.id,
     required this.name,
     required this.email,
     required this.code,
+    required this.dni,
     required this.career,
+    required this.faculty,
     required this.role,
-    this.phone = '',
-    this.altEmail = '',
-    this.enrollmentStatus = EnrollmentStatus.pendingPayment,
-    this.paymentOperation = '',
-    this.paymentFileName = '',
-    this.enrollmentCode = '',
+    this.status = StudentStatus.regular,
+    this.approvedCredits = 0,
+    this.totalCredits = 220,
+    this.approvedCourses = 0,
+    this.totalCourses = 40,
+    this.gpa = 0.0,
+    this.entryYear = 2021,
+    this.sede = 'Juliaca',
+    this.phone,
+    this.altEmail,
   });
 }
 
 class Course {
   final String id;
+  final String code;
   final String name;
   final int credits;
   final int cycle;
-  final String prereq;
-  final String section;
-  final String schedule;
-  final int vacancies;
-  final bool isMandatoryRetake; // Rojo - Bloqueado
-  final bool isBlockedByPrereq; // Naranja - Opacidad baja
+  final CourseType type;
+  final String? prereq;
+  final String? teacher;
+  final String? schedule;
+  final double? attendance;
+  final bool isMandatoryRetake;
+  final bool isBlockedByPrereq;
   bool isSelected;
 
   Course({
     required this.id,
+    required this.code,
     required this.name,
     required this.credits,
     required this.cycle,
-    this.prereq = '',
-    this.section = 'A',
-    this.schedule = 'Lun-Mie 08:00-10:00',
-    this.vacancies = 35,
+    this.type = CourseType.obligatorio,
+    this.prereq,
+    this.teacher,
+    this.schedule,
+    this.attendance,
     this.isMandatoryRetake = false,
     this.isBlockedByPrereq = false,
     this.isSelected = false,
   });
 }
 
-class EnrollmentRecord {
+class PaymentVoucher {
   final String id;
   final String studentCode;
   final String studentName;
-  final String career;
-  final String period;
   final String operationNumber;
-  final String voucherFile;
-  final List<Course> courses;
-  final DateTime createdAt;
+  final double amount;
+  final String fileName;
+  final DateTime date;
+  PaymentStatus status;
 
-  EnrollmentRecord({
+  PaymentVoucher({
     required this.id,
     required this.studentCode,
     required this.studentName,
-    required this.career,
-    required this.period,
     required this.operationNumber,
-    required this.voucherFile,
-    required this.courses,
-    required this.createdAt,
+    required this.amount,
+    required this.fileName,
+    required this.date,
+    this.status = PaymentStatus.pendiente,
+  });
+}
+
+class AcademicRecord {
+  final String courseCode;
+  final String courseName;
+  final int credits;
+  final int grade;
+  final int attempts;
+  final String semester;
+
+  AcademicRecord({
+    required this.courseCode,
+    required this.courseName,
+    required this.credits,
+    required this.grade,
+    required this.attempts,
+    required this.semester,
   });
 
-  int get totalCredits =>
-      courses.fold(0, (sum, course) => sum + course.credits);
+  bool get isApproved => grade >= 11;
 }

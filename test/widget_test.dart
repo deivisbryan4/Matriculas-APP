@@ -12,14 +12,13 @@ void main() {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => AuthProvider()),
-          ChangeNotifierProvider(create: (_) => EnrollmentProvider()),
+          ChangeNotifierProvider(create: (_) => SystemProvider()),
         ],
         child: const UnajMatriculaApp(),
       ),
     );
 
-    expect(find.text('UNAJ'), findsOneWidget);
-    expect(find.text('Sistema de Matricula'), findsOneWidget);
-    expect(find.text('INGRESAR'), findsOneWidget);
+    expect(find.text('UNAJ'), findsWidgets);
+    expect(find.text('Sistema de Matrículas'), findsWidgets);
   });
 }

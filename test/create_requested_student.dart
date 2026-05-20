@@ -5,13 +5,14 @@ Future<void> main() async {
   final supabaseUrl = 'https://laakjkkxhcjrbslyqlbk.supabase.co';
   final anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxhYWtqa2t4aGNqcmJzbHlxbGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NjUzOTgsImV4cCI6MjA5NDQ0MTM5OH0.2pHF-iDDYqCWAbQiXU9v1S5gT2oVVbPHqH-bTrmDMVE';
   
-  final email = '75254137.est@unaj.edu.pe';
+  final email = '2022107035.est@unaj.edu.pe';
   final password = '12345678';
-  final dni = '75254137';
-  final nombres = 'Rsaquel Pamela';
-  final paterno = 'Laura';
-  final materno = 'Ccama';
-  final studentCode = '2022254137'; // 2022 + 6 dígitos finales del DNI
+  final dni = '2022107035';
+  final nombres = 'Elyan Rosy';
+  final paterno = 'Quispe';
+  final materno = 'Zapana';
+  final studentCode = '2022107035'; 
+  final carreraId = 4; // Ingeniería Ambiental y Forestal (ID: 4)
 
   print('========================================================');
   print('      CREANDO ESTUDIANTE SOLICITADO (PURE DART)       ');
@@ -64,7 +65,7 @@ Future<void> main() async {
           'apellido_paterno': paterno,
           'apellido_materno': materno,
           'codigo_estudiante': studentCode,
-          'carrera_id': 1, // Sistemas
+          'carrera_id': carreraId, 
           'rol_id': 2,      // Estudiante
           'anio_ingreso': 2022,
           'semestre_ingreso': 1,
@@ -141,7 +142,7 @@ Future<void> main() async {
 
     final body = jsonEncode({
       'usuario_id': userId,
-      'carrera_id': 1, // Sistemas
+      'carrera_id': carreraId, 
       'codigo_estudiante': studentCode,
       'anio_ingreso': 2022,
       'semestre_ingreso': 1,

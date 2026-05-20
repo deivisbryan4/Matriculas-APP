@@ -12,11 +12,26 @@ class ReportsView extends StatelessWidget {
         children: [
           Row(
             children: [
-              _buildSimpleStat('1,248', 'Total matriculados', Icons.assignment_turned_in, AppTheme.navyBlue),
+              _buildSimpleStat(
+                '1,248',
+                'Total matriculados',
+                Icons.assignment_turned_in,
+                AppTheme.navyBlue,
+              ),
               const SizedBox(width: 16),
-              _buildSimpleStat('34', 'Inhabilitados', Icons.error_outline, AppTheme.amberOrange),
+              _buildSimpleStat(
+                '34',
+                'Inhabilitados',
+                Icons.error_outline,
+                AppTheme.amberOrange,
+              ),
               const SizedBox(width: 16),
-              _buildSimpleStat('12.8', 'Nota promedio', Icons.grade, AppTheme.emeraldGreen),
+              _buildSimpleStat(
+                '12.8',
+                'Nota promedio',
+                Icons.grade,
+                AppTheme.emeraldGreen,
+              ),
             ],
           ),
           const SizedBox(height: 32),
@@ -31,7 +46,13 @@ class ReportsView extends StatelessWidget {
                       children: [
                         Icon(Icons.bar_chart, color: Colors.grey),
                         SizedBox(width: 8),
-                        Text('Cursos con más desaprobados', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                        Text(
+                          'Cursos con más desaprobados',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 40),
@@ -49,7 +70,12 @@ class ReportsView extends StatelessWidget {
     );
   }
 
-  Widget _buildSimpleStat(String val, String label, IconData icon, Color color) {
+  Widget _buildSimpleStat(
+    String val,
+    String label,
+    IconData icon,
+    Color color,
+  ) {
     return Expanded(
       child: Card(
         child: Padding(
@@ -58,8 +84,22 @@ class ReportsView extends StatelessWidget {
             children: [
               Icon(icon, color: Colors.grey, size: 20),
               const SizedBox(height: 12),
-              Text(val, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: AppTheme.navyBlue)),
-              Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.w500)),
+              Text(
+                val,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                  color: AppTheme.navyBlue,
+                ),
+              ),
+              Text(
+                label,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
         ),
@@ -75,12 +115,30 @@ class ReportsView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
-              Text(count.toString(), style: const TextStyle(fontWeight: FontWeight.w900, color: AppTheme.roseRed)),
+              Text(
+                name,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+              Text(
+                count.toString(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: AppTheme.roseRed,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
-          LinearProgressIndicator(value: percent, minHeight: 12, backgroundColor: AppTheme.lightGrey, color: AppTheme.roseRed.withOpacity(0.7), borderRadius: BorderRadius.circular(6)),
+          LinearProgressIndicator(
+            value: percent,
+            minHeight: 12,
+            backgroundColor: AppTheme.lightGrey,
+            color: AppTheme.roseRed.withOpacity(0.7),
+            borderRadius: BorderRadius.circular(6),
+          ),
         ],
       ),
     );

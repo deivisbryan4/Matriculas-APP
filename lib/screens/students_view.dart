@@ -22,8 +22,6 @@ class StudentsView extends StatelessWidget {
   }
 
   Widget _buildFilters(BuildContext context, bool isMobile) {
-    final auth = Provider.of<AuthProvider>(context, listen: false);
-    
     return Padding(
       padding: EdgeInsets.all(isMobile ? 16 : 32),
       child: Column(
@@ -69,6 +67,7 @@ class StudentsView extends StatelessWidget {
           allowedExtensions: ['csv', 'xlsx', 'xls'],
         );
         if (result != null) {
+          if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Procesando archivo: ${result.files.single.name}'),
@@ -95,7 +94,7 @@ class StudentsView extends StatelessWidget {
 
   Widget _buildContent(BuildContext context, bool isMobile) {
     final system = Provider.of<SystemProvider>(context);
-    
+
     if (isMobile) {
       return ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -106,17 +105,29 @@ class StudentsView extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 12),
             child: ListTile(
               contentPadding: const EdgeInsets.all(16),
-              title: Text(s.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+              title: Text(
+                s.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 4),
-                  Text('Cód: ${s.code} · ${s.career}', style: const TextStyle(fontSize: 12, color: AppTheme.greyText)),
+                  Text(
+                    'Cód: ${s.code} · ${s.career}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppTheme.greyText,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   _buildStatusBadge(s.status),
                 ],
               ),
-              trailing: const Icon(Icons.chevron_right, color: AppTheme.greyText),
+              trailing: const Icon(
+                Icons.chevron_right,
+                color: AppTheme.greyText,
+              ),
             ),
           );
         },
@@ -131,35 +142,128 @@ class StudentsView extends StatelessWidget {
           child: DataTable(
             headingRowHeight: 60,
             columns: const [
-              DataColumn(label: Text('CÓDIGO', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppTheme.greyText))),
-              DataColumn(label: Text('ESTUDIANTE', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppTheme.greyText))),
-              DataColumn(label: Text('CARRERA', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppTheme.greyText))),
-              DataColumn(label: Text('CRÉDITOS', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppTheme.greyText))),
-              DataColumn(label: Text('ESTADO', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppTheme.greyText))),
-              DataColumn(label: Text('ACCIONES', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: AppTheme.greyText))),
+              DataColumn(
+                label: Text(
+                  'CÓDIGO',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'ESTUDIANTE',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'CARRERA',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'CRÉDITOS',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'ESTADO',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'ACCIONES',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
             ],
-            rows: system.students.map((s) => DataRow(
-              cells: [
-                DataCell(Text(s.code, style: const TextStyle(fontWeight: FontWeight.bold, color: AppTheme.mustardYellow))),
-                DataCell(Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(s.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text('DNI ${s.dni}', style: const TextStyle(color: AppTheme.greyText, fontSize: 11)),
-                  ],
-                )),
-                DataCell(Text(s.career)),
-                DataCell(Center(child: Text(s.approvedCredits.toString()))),
-                DataCell(_buildStatusBadge(s.status)),
-                DataCell(Row(
-                  children: [
-                    IconButton(icon: const Icon(Icons.edit_outlined, size: 20), onPressed: () {}),
-                    IconButton(icon: const Icon(Icons.delete_outline, size: 20, color: AppTheme.roseRed), onPressed: () {}),
-                  ],
-                )),
-              ],
-            )).toList(),
+            rows: system.students
+                .map(
+                  (s) => DataRow(
+                    cells: [
+                      DataCell(
+                        Text(
+                          s.code,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.mustardYellow,
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              s.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'DNI ${s.dni}',
+                              style: const TextStyle(
+                                color: AppTheme.greyText,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      DataCell(Text(s.career)),
+                      DataCell(
+                        Center(child: Text(s.approvedCredits.toString())),
+                      ),
+                      DataCell(_buildStatusBadge(s.status)),
+                      DataCell(
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit_outlined, size: 20),
+                              onPressed: () {},
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                size: 20,
+                                color: AppTheme.roseRed,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),
@@ -170,14 +274,33 @@ class StudentsView extends StatelessWidget {
     Color color;
     String text;
     switch (status) {
-      case StudentStatus.regular: color = AppTheme.emeraldGreen; text = 'Activo'; break;
-      case StudentStatus.observado: color = AppTheme.amberOrange; text = 'Observado'; break;
-      case StudentStatus.inhabilitado: color = AppTheme.roseRed; text = 'Inhabilitado'; break;
+      case StudentStatus.regular:
+        color = AppTheme.emeraldGreen;
+        text = 'Activo';
+        break;
+      case StudentStatus.observado:
+        color = AppTheme.amberOrange;
+        text = 'Observado';
+        break;
+      case StudentStatus.inhabilitado:
+        color = AppTheme.roseRed;
+        text = 'Inhabilitado';
+        break;
     }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
-      child: Text(text, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 10)),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: color,
+          fontWeight: FontWeight.bold,
+          fontSize: 10,
+        ),
+      ),
     );
   }
 }

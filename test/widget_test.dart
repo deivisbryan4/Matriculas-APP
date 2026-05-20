@@ -19,6 +19,7 @@ void main() {
     );
 
     expect(find.text('UNAJ'), findsWidgets);
-    expect(find.text('Sistema de Matrículas'), findsWidgets);
+    expect(find.text('Sistema de Matriculas'), findsWidgets);
+    expect(find.text('Ingresar'), findsOneWidget);
   });
 }

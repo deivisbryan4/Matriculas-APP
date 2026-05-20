@@ -4,12 +4,19 @@ import 'app_theme.dart';
 import 'providers.dart';
 import 'screens/login_screen.dart';
 import 'screens/shell_screen.dart';
+import 'supabase_config.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SupabaseConfig.initialize();
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) {
+          final auth = AuthProvider();
+          auth.initAuthListener(); // Escucha el enlace de recuperación de contraseña
+          return auth;
+        }),
         ChangeNotifierProvider(create: (_) => SystemProvider()),
       ],
       child: const UnajMatriculaApp(),

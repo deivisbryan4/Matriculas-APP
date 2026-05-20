@@ -4,63 +4,111 @@ enum StudentStatus { regular, observado, inhabilitado }
 
 enum PaymentStatus { pendiente, validado, rechazado }
 
-enum CourseType { obligatorio, electivo }
-
 class User {
   final String id;
-  final String name;
-  final String email;
-  final String code;
   final String dni;
-  final String career;
-  final String faculty;
+  final String nombres;
+  final String? apellidoPaterno;
+  final String? apellidoMaterno;
+  final String email;
+  final String? studentCode;
   final UserRole role;
-  final StudentStatus status;
+  final String? careerName;
+  final String? facultyName;
+  final String statusAcademico; // 'ACTIVO', 'OBSERVADO', 'INHABILITADO'
   final int approvedCredits;
-  final int totalCredits;
-  final int approvedCourses;
-  final int totalCourses;
-  final double gpa;
-  final int entryYear;
-  final String sede;
   final String? phone;
-  final String? altEmail;
 
   User({
     required this.id,
-    required this.name,
-    required this.email,
-    required this.code,
     required this.dni,
-    required this.career,
-    required this.faculty,
+    required this.nombres,
+    this.apellidoPaterno,
+    this.apellidoMaterno,
+    required this.email,
+    this.studentCode,
     required this.role,
-    this.status = StudentStatus.regular,
+    this.careerName,
+    this.facultyName,
+    this.statusAcademico = 'ACTIVO',
     this.approvedCredits = 0,
-    this.totalCredits = 220,
-    this.approvedCourses = 0,
-    this.totalCourses = 40,
-    this.gpa = 0.0,
-    this.entryYear = 2021,
-    this.sede = 'Juliaca',
     this.phone,
-    this.altEmail,
   });
+
+  // Getters de conveniencia para las pantallas
+  String get fullName =>
+      '$nombres ${apellidoPaterno ?? ''} ${apellidoMaterno ?? ''}'.trim();
+
+  /// Alias usado por las pantallas
+  String get name => fullName;
+
+  /// Código de estudiante con fallback
+  String get code => studentCode ?? '—';
+
+  /// Carrera con fallback
+  String get career => careerName ?? '—';
+
+  /// Facultad con fallback
+  String get faculty => facultyName ?? '—';
+
+  /// Año de ingreso (placeholder — no está en BD)
+  String get entryYear => '—';
+
+  /// Sede (placeholder — no está en BD)
+  String get sede => '—';
+
+  /// Estado como enum StudentStatus
+  StudentStatus get status {
+    switch (statusAcademico.toUpperCase()) {
+      case 'OBSERVADO':
+        return StudentStatus.observado;
+      case 'INHABILITADO':
+        return StudentStatus.inhabilitado;
+      default:
+        return StudentStatus.regular;
+    }
+  }
+
+  /// Total de créditos de la carrera (placeholder)
+  int get totalCredits => 220;
+
+  /// Promedio acumulado (placeholder — requiere tabla notas en BD)
+  double get gpa => 14.2;
+
+  /// Cursos aprobados (placeholder)
+  int get approvedCourses => approvedCredits > 0 ? (approvedCredits ~/ 4) : 0;
+
+  /// Total de cursos de la carrera (placeholder)
+  int get totalCourses => 55;
+
+  int get currentCycle {
+    if (approvedCredits >= 180) return 10;
+    if (approvedCredits >= 160) return 9;
+    if (approvedCredits >= 140) return 8;
+    if (approvedCredits >= 120) return 7;
+    if (approvedCredits >= 100) return 6;
+    if (approvedCredits >= 80) return 5;
+    if (approvedCredits >= 60) return 4;
+    if (approvedCredits >= 40) return 3;
+    if (approvedCredits >= 20) return 2;
+    return 1;
+  }
 }
 
 class Course {
-  final String id;
+  final int id;
   final String code;
   final String name;
   final int credits;
   final int cycle;
-  final CourseType type;
+  final String type; // 'OBLIGATORIO' | 'ELECTIVO'
+  final int theoryHours;
+  final int practiceHours;
   final String? prereq;
   final String? teacher;
   final String? schedule;
   final double? attendance;
-  final bool isMandatoryRetake;
-  final bool isBlockedByPrereq;
+  final int minRequiredCredits;
   bool isSelected;
 
   Course({
@@ -69,46 +117,87 @@ class Course {
     required this.name,
     required this.credits,
     required this.cycle,
-    this.type = CourseType.obligatorio,
+    required this.type,
+    this.theoryHours = 0,
+    this.practiceHours = 0,
     this.prereq,
     this.teacher,
     this.schedule,
     this.attendance,
-    this.isMandatoryRetake = false,
-    this.isBlockedByPrereq = false,
+    this.minRequiredCredits = 0,
     this.isSelected = false,
   });
+
+  /// True si el curso tiene prerequisito pendiente (simplificado)
+  bool get isBlockedByPrereq => false;
 }
 
 class PaymentVoucher {
-  final String id;
-  final String studentCode;
+  final int id;
   final String studentName;
-  final String operationNumber;
+  final String studentCode;
+  final String studentDni;
   final double amount;
-  final String fileName;
-  final DateTime date;
-  PaymentStatus status;
+  final String operationNumber;
+  final String? voucherUrl;
+  final String statusStr; // 'PENDIENTE', 'VALIDADO', 'RECHAZADO'
+  final DateTime createdAt;
 
   PaymentVoucher({
     required this.id,
-    required this.studentCode,
     required this.studentName,
-    required this.operationNumber,
+    required this.studentCode,
+    this.studentDni = '',
     required this.amount,
-    required this.fileName,
+    required this.operationNumber,
+    this.voucherUrl,
+    required String status,
+    required this.createdAt,
+  }) : statusStr = status;
+
+  /// Alias para compatibilidad con código antiguo
+  String get status => statusStr;
+
+  /// Estado como enum PaymentStatus
+  PaymentStatus get statusEnum {
+    switch (statusStr.toUpperCase()) {
+      case 'VALIDADO':
+        return PaymentStatus.validado;
+      case 'RECHAZADO':
+        return PaymentStatus.rechazado;
+      default:
+        return PaymentStatus.pendiente;
+    }
+  }
+}
+
+class BankTransaction {
+  final String operationNumber;
+  final String date;
+  final double amount;
+  final String? clientDni;
+  final String? clientName;
+  final String type; // 'BANCO_NACION' or 'PAGALO'
+
+  BankTransaction({
+    required this.operationNumber,
     required this.date,
-    this.status = PaymentStatus.pendiente,
+    required this.amount,
+    this.clientDni,
+    this.clientName,
+    required this.type,
   });
 }
+
 
 class AcademicRecord {
   final String courseCode;
   final String courseName;
   final int credits;
-  final int grade;
+  final double grade;
   final int attempts;
-  final String semester;
+  final String status; // 'APROBADO', 'DESAPROBADO'
+  final String? semester;
 
   AcademicRecord({
     required this.courseCode,
@@ -116,7 +205,8 @@ class AcademicRecord {
     required this.credits,
     required this.grade,
     required this.attempts,
-    required this.semester,
+    required this.status,
+    this.semester,
   });
 
   bool get isApproved => grade >= 11;

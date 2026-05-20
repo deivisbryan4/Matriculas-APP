@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupabaseConfig {
   static const _defaultUrl = 'https://laakjkkxhcjrbslyqlbk.supabase.co';
   static const _defaultPublishableKey =
-      'sb_publishable_6EfX_8W0Jz6fuFPiUJUlnA_oZ4MG4SM';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxhYWtqa2t4aGNqcmJzbHlxbGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg4NjUzOTgsImV4cCI6MjA5NDQ0MTM5OH0.2pHF-iDDYqCWAbQiXU9v1S5gT2oVVbPHqH-bTrmDMVE';
 
   static const url = String.fromEnvironment(
     'SUPABASE_URL',

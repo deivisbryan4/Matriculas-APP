@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_theme.dart';
 import '../providers.dart';
-import '../models.dart';
 import '../responsive_layout.dart';
 
 class MyCoursesView extends StatefulWidget {
@@ -12,7 +11,8 @@ class MyCoursesView extends StatefulWidget {
   State<MyCoursesView> createState() => _MyCoursesViewState();
 }
 
-class _MyCoursesViewState extends State<MyCoursesView> with SingleTickerProviderStateMixin {
+class _MyCoursesViewState extends State<MyCoursesView>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -53,13 +53,13 @@ class _MyCoursesViewState extends State<MyCoursesView> with SingleTickerProvider
 
   Widget _buildCoursesList(BuildContext context, bool isMobile) {
     final system = Provider.of<SystemProvider>(context);
-    
+
     if (isMobile) {
       return ListView.builder(
         padding: const EdgeInsets.all(20),
-        itemCount: system.activeCourses.length,
+        itemCount: system.availableCourses.length,
         itemBuilder: (context, index) {
-          final c = system.activeCourses[index];
+          final c = system.availableCourses[index];
           return Card(
             margin: const EdgeInsets.only(bottom: 16),
             child: Padding(
@@ -74,8 +74,20 @@ class _MyCoursesViewState extends State<MyCoursesView> with SingleTickerProvider
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(c.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                            Text(c.code, style: const TextStyle(color: AppTheme.greyText, fontSize: 12)),
+                            Text(
+                              c.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              c.code,
+                              style: const TextStyle(
+                                color: AppTheme.greyText,
+                                fontSize: 12,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -91,7 +103,10 @@ class _MyCoursesViewState extends State<MyCoursesView> with SingleTickerProvider
                     ],
                   ),
                   const SizedBox(height: 12),
-                  _buildInfoIcon(Icons.layers_outlined, '${c.credits} Créditos'),
+                  _buildInfoIcon(
+                    Icons.layers_outlined,
+                    '${c.credits} Créditos',
+                  ),
                 ],
               ),
             ),
@@ -109,28 +124,85 @@ class _MyCoursesViewState extends State<MyCoursesView> with SingleTickerProvider
             headingRowHeight: 60,
             dataRowMaxHeight: 80,
             columns: const [
-              DataColumn(label: Text('Curso', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.greyText))),
-              DataColumn(label: Text('Créditos', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.greyText))),
-              DataColumn(label: Text('Horario', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.greyText))),
-              DataColumn(label: Text('Docente', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.greyText))),
-              DataColumn(label: Text('Asistencia', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.greyText))),
+              DataColumn(
+                label: Text(
+                  'Curso',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Créditos',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Horario',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Docente',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Asistencia',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.greyText,
+                  ),
+                ),
+              ),
             ],
-            rows: system.activeCourses.map((c) => DataRow(
-              cells: [
-                DataCell(Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(c.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                    Text(c.code, style: const TextStyle(color: AppTheme.greyText, fontSize: 11)),
-                  ],
-                )),
-                DataCell(Center(child: Text(c.credits.toString()))),
-                DataCell(Text(c.schedule ?? '')),
-                DataCell(Text(c.teacher ?? '')),
-                DataCell(_buildAttendanceBadge(c.attendance ?? 0.0)),
-              ],
-            )).toList(),
+            rows: system.availableCourses
+                .map(
+                  (c) => DataRow(
+                    cells: [
+                      DataCell(
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              c.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              c.code,
+                              style: const TextStyle(
+                                color: AppTheme.greyText,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      DataCell(Center(child: Text(c.credits.toString()))),
+                      DataCell(Text(c.schedule ?? '')),
+                      DataCell(Text(c.teacher ?? '')),
+                      DataCell(_buildAttendanceBadge(c.attendance ?? 0.0)),
+                    ],
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),
@@ -142,7 +214,10 @@ class _MyCoursesViewState extends State<MyCoursesView> with SingleTickerProvider
       children: [
         Icon(icon, size: 16, color: AppTheme.mustardYellow.withOpacity(0.7)),
         const SizedBox(width: 8),
-        Text(text, style: const TextStyle(fontSize: 13, color: AppTheme.whiteText)),
+        Text(
+          text,
+          style: const TextStyle(fontSize: 13, color: AppTheme.whiteText),
+        ),
       ],
     );
   }
@@ -156,8 +231,18 @@ class _MyCoursesViewState extends State<MyCoursesView> with SingleTickerProvider
     Color color = percent >= 80 ? AppTheme.emeraldGreen : AppTheme.amberOrange;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
-      child: Text('$percent%', style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 13)),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        '$percent%',
+        style: TextStyle(
+          color: color,
+          fontWeight: FontWeight.bold,
+          fontSize: 13,
+        ),
+      ),
     );
   }
 }

@@ -49,7 +49,9 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: navyBlue,
           foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
       ),
@@ -73,7 +75,10 @@ class AppTheme {
         backgroundColor: Color(0xFF1E1E1E),
         selectedItemColor: mustardYellow,
         unselectedItemColor: greyText,
-        selectedLabelStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+        selectedLabelStyle: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
         unselectedLabelStyle: TextStyle(fontSize: 10),
         type: BottomNavigationBarType.fixed,
       ),
